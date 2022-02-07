@@ -9,12 +9,12 @@ import java.util.Arrays;
 /**
  * Calculates the increment or decrement of the metronome speed based
  * current Beats Per Minute (BMP)
+ * 
  * @author Warner Iveris
  */
-public class CalculateSpeed {
-    
-    private static CalculateSpeed cs = new CalculateSpeed();
-    private CalculateSpeed(){}
+public class TempoUtilities {
+
+    public TempoUtilities(){}
     
     private static int[] possibleSpeeds = {
         40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 63, 66, 69, 72, 76, 80, 
@@ -40,5 +40,12 @@ public class CalculateSpeed {
     
     private static int findSpeedIndex(int currentBMP){
         return Arrays.binarySearch(possibleSpeeds, currentBMP);
+    }
+    
+    public static boolean validate(int tempo){
+        boolean isValid = false;
+        if(Arrays.binarySearch(possibleSpeeds, tempo) != -1)
+            isValid = true;
+        return isValid;
     }
 }

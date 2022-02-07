@@ -16,21 +16,21 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @author warner
  */
-public class CalculateSpeedTest {
+public class TempoUtilitiesTest {
     
     private int MAX_BMP;
     private int MIN_BMP;
     
     
-    public CalculateSpeedTest() throws ClassNotFoundException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+    public TempoUtilitiesTest() throws ClassNotFoundException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
         setup();
     }
     
     @BeforeAll
     public void setup() throws ClassNotFoundException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
-        var field = CalculateSpeed.class.getDeclaredField("possibleSpeeds");
+        var field = TempoUtilities.class.getDeclaredField("possibleSpeeds");
         field.setAccessible(true);
-        int[] speeds = (int[]) field.get(CalculateSpeed.class);
+        int[] speeds = (int[]) field.get(TempoUtilities.class);
         
         MIN_BMP = speeds[0];
         MAX_BMP = speeds[speeds.length - 1];
@@ -45,7 +45,7 @@ public class CalculateSpeedTest {
         System.out.println("increment");
         int currentBMP = 60;
         int expResult = 63;
-        int result = CalculateSpeed.increment(currentBMP);
+        int result = TempoUtilities.increment(currentBMP);
         assertEquals(expResult, result);
     }
 
@@ -57,7 +57,7 @@ public class CalculateSpeedTest {
         System.out.println("decrement");
         int currentBMP = 60;
         int expResult = 58;
-        int result = CalculateSpeed.decrement(currentBMP);
+        int result = TempoUtilities.decrement(currentBMP);
         assertEquals(expResult, result);
     }
     
@@ -70,7 +70,7 @@ public class CalculateSpeedTest {
         System.out.println("increment maximum: " + MAX_BMP);
         int currentBMP = MAX_BMP;
         int expResult = MAX_BMP;
-        int result = CalculateSpeed.increment(currentBMP);
+        int result = TempoUtilities.increment(currentBMP);
         assertEquals(expResult, result);
     }
     
@@ -82,7 +82,19 @@ public class CalculateSpeedTest {
         System.out.println("decrement minimum: " + MIN_BMP);
         int currentBMP = MIN_BMP;
         int expResult = MIN_BMP;
-        int result = CalculateSpeed.decrement(currentBMP);
+        int result = TempoUtilities.decrement(currentBMP);
         assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test of validate method, of class CalculateSpeed.
+     */
+    @org.junit.jupiter.api.Test
+    public void testValidate() {
+        System.out.println("validate");
+        int validTempo = 60; // 60 will always be a valid tempo on any metronome
+        int invalidTempo = -4; // it is impossible to have a negative number of beats per minute
+        assertTrue(TempoUtilities.validate(validTempo));
+        assertFalse(TempoUtilities.validate(invalidTempo));
     }
 }
