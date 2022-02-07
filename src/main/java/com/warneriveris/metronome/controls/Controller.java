@@ -4,6 +4,8 @@
  */
 package com.warneriveris.metronome.controls;
 
+import com.warneriveris.metronome.gui.MainFrame;
+
 /**
  * Service class between GUI and metronome internal classes
  * 
@@ -11,11 +13,14 @@ package com.warneriveris.metronome.controls;
  */
 public final class Controller implements ControlInterface{
 
-    public static final Controller controller = new Controller();
-    private Controller(){
-        throw new UnsupportedOperationException("Cannot Reinstantiate Controller Class");
-    };
+    private static final Controller controller = new Controller();
     
+    private Controller(){
+    }
+    
+    public static Controller instance(){
+        return controller;
+    }
     /**
      * Calculates new speed, then updates metronome and updates GUI display label
      */
@@ -40,7 +45,7 @@ public final class Controller implements ControlInterface{
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
-    private void setDisplay(int tempo){
-        
+    public void setDisplay(int tempo){
+        MainFrame.instance().setDisplay(tempo);
     }
 }

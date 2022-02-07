@@ -12,6 +12,11 @@ import com.warneriveris.metronome.controls.Controller;
  */
 public class MainFrame extends javax.swing.JFrame {
 
+    private static final MainFrame mainFrame = new MainFrame();
+    
+    public static MainFrame instance(){
+        return mainFrame;
+    }
     /**
      * Creates new form MainFrame
      */
@@ -117,15 +122,15 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void pausePlayBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pausePlayBtnActionPerformed
-        Controller.controller.stopPlay();
+        Controller.instance().stopPlay();
     }//GEN-LAST:event_pausePlayBtnActionPerformed
 
     private void slowerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_slowerBtnActionPerformed
-        Controller.controller.decrement();
+        Controller.instance().decrement();
     }//GEN-LAST:event_slowerBtnActionPerformed
 
     private void fasterBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fasterBtnActionPerformed
-        Controller.controller.increment();
+        Controller.instance().increment();
     }//GEN-LAST:event_fasterBtnActionPerformed
 
     public void setDisplay(int tempo){
