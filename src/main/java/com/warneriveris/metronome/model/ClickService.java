@@ -12,7 +12,7 @@ import com.warneriveris.metronome.controls.ControlInterface;
  * 
  * @author Warner Iveris
  */
-public class ClickService implements ControlInterface{
+public class ClickService implements ControlInterface {
 
     public static final ClickService clickService = new ClickService();
     private ClickService(){
