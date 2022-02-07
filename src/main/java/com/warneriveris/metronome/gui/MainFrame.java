@@ -4,6 +4,8 @@
  */
 package com.warneriveris.metronome.gui;
 
+import com.warneriveris.metronome.controls.Controller;
+
 /**
  *
  * @author Warner Iveris
@@ -27,15 +29,16 @@ public class MainFrame extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        DisplayPanel = new javax.swing.JPanel();
+        DisplayLabel = new javax.swing.JLabel();
+        ControlPanel = new javax.swing.JPanel();
+        slowerBtn = new javax.swing.JButton();
+        pausePlayBtn = new javax.swing.JButton();
+        fasterBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("M E T R O N O M E");
+        setAutoRequestFocus(false);
         setBackground(new java.awt.Color(0, 153, 153));
         setBounds(new java.awt.Rectangle(0, 0, 100, 65));
         setLocation(new java.awt.Point(0, 0));
@@ -48,17 +51,19 @@ public class MainFrame extends javax.swing.JFrame {
         layout.rowHeights = new int[] {0, 5, 0};
         getContentPane().setLayout(layout);
 
-        jPanel1.setOpaque(false);
+        DisplayPanel.setOpaque(false);
 
-        jLabel1.setFont(new java.awt.Font("Lucida Grande", 3, 48)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("120");
-        jLabel1.setFocusable(false);
-        jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jLabel1.setMaximumSize(new java.awt.Dimension(100, 58));
-        jLabel1.setMinimumSize(new java.awt.Dimension(100, 58));
-        jLabel1.setPreferredSize(new java.awt.Dimension(100, 58));
-        jPanel1.add(jLabel1);
+        DisplayLabel.setFont(new java.awt.Font("Avenir Next Condensed", 1, 60)); // NOI18N
+        DisplayLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        DisplayLabel.setText("120");
+        DisplayLabel.setFocusable(false);
+        DisplayLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        DisplayLabel.setMaximumSize(new java.awt.Dimension(120, 65));
+        DisplayLabel.setMinimumSize(new java.awt.Dimension(120, 65));
+        DisplayLabel.setName(""); // NOI18N
+        DisplayLabel.setPreferredSize(new java.awt.Dimension(120, 65));
+        DisplayPanel.add(DisplayLabel);
+        DisplayLabel.getAccessibleContext().setAccessibleName("DisplayLabel");
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -68,21 +73,37 @@ public class MainFrame extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 6);
-        getContentPane().add(jPanel1, gridBagConstraints);
+        getContentPane().add(DisplayPanel, gridBagConstraints);
 
-        jPanel2.setOpaque(false);
+        ControlPanel.setOpaque(false);
 
-        jButton1.setText("-");
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jPanel2.add(jButton1);
+        slowerBtn.setText("-");
+        slowerBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        slowerBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                slowerBtnActionPerformed(evt);
+            }
+        });
+        ControlPanel.add(slowerBtn);
 
-        jButton2.setText("PLAY");
-        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jPanel2.add(jButton2);
+        pausePlayBtn.setText("PLAY");
+        pausePlayBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        pausePlayBtn.setSelected(true);
+        pausePlayBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pausePlayBtnActionPerformed(evt);
+            }
+        });
+        ControlPanel.add(pausePlayBtn);
 
-        jButton3.setText("+");
-        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jPanel2.add(jButton3);
+        fasterBtn.setText("+");
+        fasterBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        fasterBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fasterBtnActionPerformed(evt);
+            }
+        });
+        ControlPanel.add(fasterBtn);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -90,11 +111,28 @@ public class MainFrame extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTH;
         gridBagConstraints.insets = new java.awt.Insets(6, 6, 6, 6);
-        getContentPane().add(jPanel2, gridBagConstraints);
+        getContentPane().add(ControlPanel, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void pausePlayBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pausePlayBtnActionPerformed
+        Controller.controller.stopPlay();
+    }//GEN-LAST:event_pausePlayBtnActionPerformed
+
+    private void slowerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_slowerBtnActionPerformed
+        Controller.controller.decrement();
+    }//GEN-LAST:event_slowerBtnActionPerformed
+
+    private void fasterBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fasterBtnActionPerformed
+        Controller.controller.increment();
+    }//GEN-LAST:event_fasterBtnActionPerformed
+
+    public void setDisplay(int tempo){
+        String text = Integer.toString(tempo);
+        DisplayLabel.setText(text);
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -131,11 +169,11 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel ControlPanel;
+    private javax.swing.JLabel DisplayLabel;
+    private javax.swing.JPanel DisplayPanel;
+    private javax.swing.JButton fasterBtn;
+    private javax.swing.JButton pausePlayBtn;
+    private javax.swing.JButton slowerBtn;
     // End of variables declaration//GEN-END:variables
 }
