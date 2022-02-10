@@ -12,26 +12,27 @@ import com.warneriveris.metronome.controls.ControlInterface;
  * 
  * @author Warner Iveris
  */
-public class ClickService implements ControlInterface {
+public class ClickService {
 
     public static final ClickService clickService = new ClickService();
     private ClickService(){
         throw new UnsupportedOperationException("Cannot reinstantiate class");
     }
     
-    @Override
-    public void increment() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    private static volatile boolean isRunning = false;
+    
+    public static void setTempo(int BPM){
+        
     }
-
-    @Override
-    public void decrement() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    
+    public static boolean getIsRunning(){
+        return isRunning;
     }
-
-    @Override
-    public void stopPlay() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    
+    public static void stopPlay(){
+        // if(isRunning) stop else play
     }
+    
+    
     
 }

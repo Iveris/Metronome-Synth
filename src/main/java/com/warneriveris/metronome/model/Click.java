@@ -4,6 +4,15 @@
  */
 package com.warneriveris.metronome.model;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.MidiUnavailableException;
+import javax.sound.midi.Sequence;
+import javax.sound.midi.Sequencer;
+import javax.sound.midi.Synthesizer;
+
 /**
  * Plays audible click at designated BPM
  * 
@@ -11,14 +20,78 @@ package com.warneriveris.metronome.model;
  */
 public class Click implements Runnable{
 
-    public static final Click click = new Click();
+    private static final Click click = new Click();
     private Click(){}
+    
+    public static Click instance(){
+        return click;
+    }
+    
+    private Sequence sequence;
+    private int tempo;
+    private volatile boolean tempoChanged = false;
+    private volatile boolean keepPlaying = false;
     
     @Override
     public void run() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        /* create sequencer and synthesizer, load sequence, wire sequencer 
+         * to syntheizer, open both, set tempo, play */
+        
+        while(getKeepPlaying()){
+            if(getTempoChanged()){
+                // set new tempo
+                setTempoChanged(false);
+            }
+        }
     }
     
+    /**
+     * TODO: change to a builder pattern
+     */
+    private void init(){
+    }
+
+    /**
+     * @return the tempo
+     */
+    public int getTempo() {
+        return tempo;
+    }
+
+    /**
+     * @param tempo the tempo to set
+     */
+    public void setTempo(int tempo) {
+        this.tempo = tempo;
+    }
+
+    /**
+     * @return the tempoChanged
+     */
+    public boolean getTempoChanged() {
+        return tempoChanged;
+    }
+
+    /**
+     * @param tempoChanged the tempoChanged to set
+     */
+    public void setTempoChanged(boolean tempoChanged) {
+        this.tempoChanged = tempoChanged;
+    }
+
+    /**
+     * @return the keepPlaying
+     */
+    public boolean getKeepPlaying() {
+        return keepPlaying;
+    }
+
+    /**
+     * @param keepPlaying the keepPlaying to set
+     */
+    public void setKeepPlaying(boolean keepPlaying) {
+        this.keepPlaying = keepPlaying;
+    }
 }
 
 /*
@@ -33,8 +106,5 @@ playPause() -> toggles isRunning
 
 close resource method
 open resource method
-
-
-
 
 */
