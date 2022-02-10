@@ -4,6 +4,8 @@
  */
 package com.warneriveris.metronome.model;
 
+import javax.sound.midi.Sequence;
+
 /**
  * Represents various rhythms and their placement within a quarter-note pulse
  *
@@ -18,11 +20,16 @@ public enum Rhythms {
     private int placement; // called "tick" in sequence and MidiEvents that make up a sequence
     private int pitch;
     private int velocity; // how loud or soft a pitch is
-    
+
     /* 840 divisions of a quarter-note chosen because it is divisible 
      * by 4, 5, 6, and 7 (and by divisions 2 and 3) allowing any common
      * divisions of a quarter-note */
     private int QUARTER_DIVISION = 840;
+    /* All the rhythms in this class are based on the Sequence.PPQ division type.
+     * Setting this default ensures that future code changes either use this
+     * division type, or re-write this entire class to use a different type.
+     */
+    private float DIVISION_TYPE = Sequence.PPQ;
 
     Rhythms(int placement, int pitch, int velocity) {
         this.placement = placement;
@@ -43,16 +50,20 @@ public enum Rhythms {
     public int getPitch() {
         return pitch;
     }
-    
+
     /**
      * @return the velocity
      */
     public int getVelocity() {
         return velocity;
     }
-    
-    public int quarterNoteDivision(){
+
+    public int quarterNoteDivision() {
         return QUARTER_DIVISION;
+    }
+
+    public float divisionType() {
+        return DIVISION_TYPE;
     }
 
 }
