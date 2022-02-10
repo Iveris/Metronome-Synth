@@ -8,9 +8,6 @@ import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.Sequence;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.ValueSource;
 
 /**
  *
@@ -18,19 +15,34 @@ import org.junit.jupiter.params.provider.ValueSource;
  */
 public class ClickTest {
 
-    Click instance; 
     int testTempo = 88;
     Sequence sequence;
     
     public ClickTest() throws InvalidMidiDataException {
         sequence = new Sequence(Rhythms.QUARTER.divisionType(), Rhythms.QUARTER.quarterNoteDivision());
-        instance = new Click.Builder(sequence, testTempo).build();
     }
-
     
-    
-    
-    
+    /**
+     * Test Click run method to determine if it actually plays any sound!
+     */
+    @Test
+    public void testClick(){
+        Sequence s = new SequenceWriter.Builder().quarterNotes().eigthNotes().build().getSequence();
+        Click sound = new Click.Builder(s, testTempo).build();
+        sound.setKeepPlaying(true);
+        Thread runClick = new Thread(sound);
+        runClick.start();
+        
+        try{
+            Thread.sleep(4000);
+        } catch(Exception e){
+            
+        }
+        
+        
+        sound.setKeepPlaying(false);
+        
+    }
     
     /**
      * Test of the setKeepPlaying method, of class Click. VERY IMPORTANT! Tests
@@ -39,7 +51,7 @@ public class ClickTest {
     @Test
     public void testKeepPlaying() {
         System.out.println("Test setKeepPlaying Method");
-
+        Click instance = new Click.Builder(sequence, testTempo).build();
         assertFalse(instance.getKeepPlaying());
 
         instance.setKeepPlaying(true);
@@ -50,6 +62,12 @@ public class ClickTest {
 
         instance.setKeepPlaying(false);
         assertFalse(instance.getKeepPlaying());
+        
+        if(runThread.isAlive()){
+            runThread.interrupt();
+        }
+        runThread = null;
+        instance = null;
     }
 
     /**
@@ -60,7 +78,9 @@ public class ClickTest {
     @Test
     public void testTempoChanged() {
         System.out.println("Test setTempoChanged Method");
-
+        Click instance = new Click.Builder(sequence, testTempo).build();
+        instance.setTempoChanged(false);
+        
         assertFalse(instance.getTempoChanged());
 
         instance.setKeepPlaying(true);
@@ -76,9 +96,15 @@ public class ClickTest {
         assertEquals(80, instance.getTempo());
 
         // should be false because reset to false once tempo is changed inside thread
-        assertFalse(instance.getTempoChanged());
+//        assertFalse(instance.getTempoChanged());
 
         instance.setKeepPlaying(false);
+        
+        if(runThread.isAlive()){
+            runThread.interrupt();
+        }
+        runThread = null;
+        instance = null;
     }
     
     
@@ -86,11 +112,20 @@ public class ClickTest {
      * Test of the getTempo and setTempo methods, of class Click.
      *
      */
-    @ParameterizedTest
-    @ValueSource(ints = {88, 60})
-    void testGetAndSetTempo(int tempo, boolean output){
+    @Test
+    public void testGetAndSetTempo(){
         System.out.println("Testing getTempo and setTempo methods");
+        int tempo = 60;
+        Click instance = new Click.Builder(sequence, tempo).build();
+        instance.setTempo(tempo);
+        assertTrue(instance.getTempo() == tempo);
+        
+        tempo = 92;
+        assertFalse(instance.getTempo() == tempo);
+        
         instance.setTempo(tempo);
         assertEquals(instance.getTempo(), tempo);
     }
+    
+    
 }

@@ -15,60 +15,75 @@ import javax.sound.midi.Synthesizer;
 
 /**
  * Plays audible click at designated BPM
- * 
+ *
  * Handles audio portion of application
- * 
+ *
  * @author Warner Iveris
  */
-public class Click implements Runnable{
+public class Click implements Runnable {
 
     private final Click click;
-    
-    private Click(Builder builder){
-        click = builder.click;
+
+    private Click(Builder builder) {
+        click = builder.buildClick;
     }
-    
+
     // Audio Handlers
     private Sequence sequence;
     private int tempo;
-    
+
     private volatile boolean tempoChanged = false;
     private volatile boolean keepPlaying = false;
-    
+
     public static class Builder {
-        private Click click;
+
+        private Click buildClick;
         private Sequence sequence;
-        
         private int tempo;
-        
-        public Builder(Sequence sequence, int tempo){
+
+        public Builder(Sequence sequence, int tempo) {
             this.sequence = sequence;
             this.tempo = tempo;
         }
-        
-        public Click build(){
-            click = new Click(this);
-            click.setTempo(tempo);
-            click.sequence = sequence;
-            return click;
+
+        public Click build() {
+            buildClick = new Click(this);
+            buildClick.setTempo(tempo);
+            buildClick.sequence = sequence;
+            return buildClick;
         }
     }
-    
+
     @Override
     public void run() {
         /* create sequencer and synthesizer, load sequence, wire sequencer 
          * to syntheizer, open both, set tempo, play */
-  
-        
-        while(getKeepPlaying()){
-            if(getTempoChanged()){
-                // set new tempo
-                setTempoChanged(false);
+        try ( Sequencer sequencer = MidiSystem.getSequencer();  Synthesizer synthesizer = MidiSystem.getSynthesizer()) {
+
+            sequencer.setSequence(getSequence());
+
+            synthesizer.open();
+
+            sequencer.getTransmitter().setReceiver(synthesizer.getReceiver());
+            sequencer.setLoopCount(Integer.MAX_VALUE); // loops until the value of keepPlaying is set to false
+
+            sequencer.open();
+            sequencer.setTempoInBPM(getTempo());
+            sequencer.start();
+            while (getKeepPlaying()) {
+                if (getTempoChanged()) {
+                    sequencer.setTempoInBPM(getTempo());
+                    setTempoChanged(false);
+                }
             }
+            sequencer.stop();
+
+        } catch (MidiUnavailableException ex) {
+            Logger.getLogger(Click.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvalidMidiDataException ex) {
+            Logger.getLogger(Click.class.getName()).log(Level.SEVERE, null, ex);
         }
-      
     }
-    
 
     /**
      * @return the tempo
@@ -111,17 +126,8 @@ public class Click implements Runnable{
     public void setKeepPlaying(boolean keepPlaying) {
         this.keepPlaying = keepPlaying;
     }
+
+    private Sequence getSequence() {
+        return sequence;
+    }
 }
-
-/*
-handles audio only
-volatile isRunning boolean
-create synth object
-pick a sound
-
-playPause() -> toggles isRunning
-
-close resource method
-open resource method
-
-*/
