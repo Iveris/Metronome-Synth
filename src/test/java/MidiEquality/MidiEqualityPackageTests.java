@@ -10,12 +10,8 @@ import javax.sound.midi.MidiEvent;
 import javax.sound.midi.Sequence;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Track;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Class to test the compare methods of each class in the MidiEquality package.
@@ -46,7 +42,7 @@ public class MidiEqualityPackageTests {
     private int DATA1 = 1;
     private int DATA2 = 1;
     private int TICK = 1;
-
+    
     public MidiEqualityPackageTests() throws InvalidMidiDataException {
         event1 = new MidiEvent(new ShortMessage(ShortMessage.NOTE_ON, CHANNEL, DATA1, DATA2), TICK);
         event1Copy = new MidiEvent(new ShortMessage(ShortMessage.NOTE_ON, CHANNEL, DATA1, DATA2), TICK);
