@@ -14,7 +14,7 @@ import javax.sound.midi.MidiEvent;
 public class MidiEventComparator implements Comparator<MidiEvent> {
     @Override
     public int compare(MidiEvent event1, MidiEvent event2) {
-        if (event1.getTick() < event2.getTick()) {
+        if (event1.getTick() > event2.getTick()) {
             return 1;
         } else if (event1.getTick() == event2.getTick()) {
             return 0;
