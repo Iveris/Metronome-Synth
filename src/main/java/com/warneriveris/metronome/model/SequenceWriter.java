@@ -41,7 +41,7 @@ public class SequenceWriter {
 
         public Builder() {
             try {
-                sequence = new Sequence(Sequence.PPQ, Rhythms.QUARTER.quarterNoteDivision());
+                sequence = new Sequence(Rhythms.QUARTER.divisionType(), Rhythms.QUARTER.quarterNoteDivision());
             } catch (InvalidMidiDataException ex) {
                 Logger.getLogger(SequenceWriter.class.getName()).log(Level.SEVERE, null, ex);
                 System.exit(1); // TODO catch non-initialized sequence and display message to user
