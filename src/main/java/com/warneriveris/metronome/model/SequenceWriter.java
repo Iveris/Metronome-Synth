@@ -66,6 +66,7 @@ public class SequenceWriter {
 
         public Builder eigthNotes() {
             // do something
+            addEvent(Rhythms.EIGHTH);
             return this;
         }
 

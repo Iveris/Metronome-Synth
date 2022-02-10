@@ -30,7 +30,6 @@ public class SequenceWriterTest {
 
     public SequenceWriterTest() {
     }
-
     
     
     /**
@@ -38,7 +37,25 @@ public class SequenceWriterTest {
      * quarter-note to a sequence and testing that against a sequence built a
      * hard-coded sequence
      *
-     * @throws javax.sound.midi.InvalidMidiDataException
+     */
+    @Test
+    public void testGetQuarterEigthNoteSequence() {
+        System.out.println("Testing getSequence() method");
+        
+         // builidng expected sequence result
+        Sequence expected = quarterEighthNoteTestSequence();
+
+        SequenceWriter sWrite = new SequenceWriter.Builder().quarterNotes().eigthNotes().build();
+        Sequence actual = sWrite.getSequence();
+
+        assertTrue(SequenceEquals.compare(expected, actual));
+    }
+
+    /**
+     * Test of getSequence method, of class SequenceWriter.Simple test adding a
+     * quarter-note to a sequence and testing that against a sequence built a
+     * hard-coded sequence
+     *
      */
     @Test
     public void testGetQuarterNoteSequence() {
@@ -53,6 +70,34 @@ public class SequenceWriterTest {
         assertTrue(SequenceEquals.compare(expected, actual));
     }
     
+    private Sequence quarterEighthNoteTestSequence(){
+        Sequence expected = null;
+        try {
+            // quarter-note
+            expected = new Sequence(Rhythms.QUARTER.divisionType(),
+                    Rhythms.QUARTER.quarterNoteDivision());
+            Track track = expected.createTrack();
+            track.add(new MidiEvent(new ShortMessage(ShortMessage.NOTE_ON, CHANNEL,
+                    Rhythms.QUARTER.getPitch(), Rhythms.QUARTER.getVelocity()), Rhythms.QUARTER.getPlacement()));
+            track.add(new MidiEvent(new ShortMessage(ShortMessage.NOTE_OFF, CHANNEL,
+                    Rhythms.QUARTER.getPitch(), Rhythms.QUARTER.getVelocity()), Rhythms.QUARTER.getPlacement() + 1));
+            // eigth-note
+            track.add(new MidiEvent(new ShortMessage(ShortMessage.NOTE_ON, CHANNEL,
+                    Rhythms.EIGHTH.getPitch(), Rhythms.EIGHTH.getVelocity()), Rhythms.EIGHTH.getPlacement()));
+            track.add(new MidiEvent(new ShortMessage(ShortMessage.NOTE_OFF, CHANNEL,
+                    Rhythms.EIGHTH.getPitch(), Rhythms.EIGHTH.getVelocity()), Rhythms.EIGHTH.getPlacement() + 1));
+            
+            // end track
+            track.add(new MidiEvent(new ShortMessage(
+                    ShortMessage.NOTE_OFF, CHANNEL, Rhythms.LAST.getPitch(),
+                    Rhythms.LAST.getVelocity()), Rhythms.LAST.getPlacement()));
+            
+        } catch (InvalidMidiDataException ex) {
+            Logger.getLogger(SequenceWriterTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return expected;
+    }
+    
     private Sequence quarterNoteTestSequence() {
         Sequence expected = null;
         try {
@@ -63,6 +108,7 @@ public class SequenceWriterTest {
                     Rhythms.QUARTER.getPitch(), Rhythms.QUARTER.getVelocity()), Rhythms.QUARTER.getPlacement()));
             track.add(new MidiEvent(new ShortMessage(ShortMessage.NOTE_OFF, CHANNEL,
                     Rhythms.QUARTER.getPitch(), Rhythms.QUARTER.getVelocity()), Rhythms.QUARTER.getPlacement() + 1));
+            // end track
             track.add(new MidiEvent(new ShortMessage(
                     ShortMessage.NOTE_OFF, CHANNEL, Rhythms.LAST.getPitch(),
                     Rhythms.LAST.getVelocity()), Rhythms.LAST.getPlacement()));
