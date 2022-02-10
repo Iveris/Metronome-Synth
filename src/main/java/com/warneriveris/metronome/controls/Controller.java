@@ -5,6 +5,7 @@
 package com.warneriveris.metronome.controls;
 
 import com.warneriveris.metronome.gui.MainFrame;
+import com.warneriveris.metronome.model.ClickService;
 
 /**
  * Service class between GUI and metronome internal classes
@@ -14,19 +15,24 @@ import com.warneriveris.metronome.gui.MainFrame;
 public final class Controller implements ControlInterface{
 
     private static final Controller controller = new Controller();
+    private int tempo;
     
     private Controller(){
+        tempo = 60;
     }
     
     public static Controller instance(){
         return controller;
     }
+    
     /**
      * Calculates new speed, then updates metronome and updates GUI display label
      */
     @Override
     public void increment() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        tempo = TempoUtilities.increment(tempo);
+        setDisplay(tempo);
+        ClickService.setTempo(tempo);
     }
 
     /**
@@ -34,7 +40,9 @@ public final class Controller implements ControlInterface{
      */
     @Override
     public void decrement() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        tempo = TempoUtilities.decrement(tempo);
+        setDisplay(tempo);
+        ClickService.setTempo(tempo);
     }
 
     /**
@@ -42,9 +50,15 @@ public final class Controller implements ControlInterface{
      */
     @Override
     public void stopPlay() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ClickService.stopPlay();
     }
     
+    
+    /**
+     * Sets the tempo display in the GUI
+     * 
+     * @param tempo integer representing the current tempo
+     */
     public void setDisplay(int tempo){
         MainFrame.instance().setDisplay(tempo);
     }
