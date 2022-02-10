@@ -16,26 +16,49 @@ import javax.sound.midi.Synthesizer;
 /**
  * Plays audible click at designated BPM
  * 
+ * Handles audio portion of application
+ * 
  * @author Warner Iveris
  */
 public class Click implements Runnable{
 
-    private static final Click click = new Click();
-    private Click(){}
+    private final Click click;
     
-    public static Click instance(){
-        return click;
+    private Click(Builder builder){
+        click = builder.click;
     }
     
+    // Audio Handlers
     private Sequence sequence;
     private int tempo;
+    
     private volatile boolean tempoChanged = false;
     private volatile boolean keepPlaying = false;
+    
+    public static class Builder {
+        private Click click;
+        private Sequence sequence;
+        
+        private int tempo;
+        
+        public Builder(Sequence sequence, int tempo){
+            this.sequence = sequence;
+            this.tempo = tempo;
+        }
+        
+        public Click build(){
+            click = new Click(this);
+            click.setTempo(tempo);
+            click.sequence = sequence;
+            return click;
+        }
+    }
     
     @Override
     public void run() {
         /* create sequencer and synthesizer, load sequence, wire sequencer 
          * to syntheizer, open both, set tempo, play */
+  
         
         while(getKeepPlaying()){
             if(getTempoChanged()){
@@ -43,13 +66,9 @@ public class Click implements Runnable{
                 setTempoChanged(false);
             }
         }
+      
     }
     
-    /**
-     * TODO: change to a builder pattern
-     */
-    private void init(){
-    }
 
     /**
      * @return the tempo
@@ -95,9 +114,7 @@ public class Click implements Runnable{
 }
 
 /*
-handles ONLY audio
-
-
+handles audio only
 volatile isRunning boolean
 create synth object
 pick a sound
