@@ -60,7 +60,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         DisplayLabel.setFont(new java.awt.Font("Avenir Next Condensed", 1, 60)); // NOI18N
         DisplayLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        DisplayLabel.setText("120");
+        DisplayLabel.setText("60");
         DisplayLabel.setFocusable(false);
         DisplayLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         DisplayLabel.setMaximumSize(new java.awt.Dimension(120, 65));
