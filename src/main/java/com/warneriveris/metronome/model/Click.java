@@ -78,9 +78,7 @@ public class Click implements Runnable {
             }
             sequencer.stop();
 
-        } catch (MidiUnavailableException ex) {
-            Logger.getLogger(Click.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvalidMidiDataException ex) {
+        } catch (MidiUnavailableException | InvalidMidiDataException ex ) {
             Logger.getLogger(Click.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
