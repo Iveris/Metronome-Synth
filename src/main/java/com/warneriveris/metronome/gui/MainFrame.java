@@ -23,7 +23,7 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         initComponents();
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -65,7 +65,7 @@ public class MainFrame extends javax.swing.JFrame {
         DisplayLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         DisplayLabel.setMaximumSize(new java.awt.Dimension(120, 65));
         DisplayLabel.setMinimumSize(new java.awt.Dimension(120, 65));
-        DisplayLabel.setName(""); // NOI18N
+        DisplayLabel.setName("DisplayLabel"); // NOI18N
         DisplayLabel.setPreferredSize(new java.awt.Dimension(120, 65));
         DisplayPanel.add(DisplayLabel);
         DisplayLabel.getAccessibleContext().setAccessibleName("DisplayLabel");
@@ -132,9 +132,10 @@ public class MainFrame extends javax.swing.JFrame {
     private void fasterBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fasterBtnActionPerformed
         Controller.instance().increment();
     }//GEN-LAST:event_fasterBtnActionPerformed
-
+    
     public void setDisplay(int tempo){
         String text = Integer.toString(tempo);
+        System.out.println(text);
         DisplayLabel.setText(text);
     }
     
@@ -154,15 +155,11 @@ public class MainFrame extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        
         //</editor-fold>
 
         /* Create and display the form */
@@ -175,7 +172,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ControlPanel;
-    private javax.swing.JLabel DisplayLabel;
+    public static javax.swing.JLabel DisplayLabel;
     private javax.swing.JPanel DisplayPanel;
     private javax.swing.JButton fasterBtn;
     private javax.swing.JButton pausePlayBtn;
