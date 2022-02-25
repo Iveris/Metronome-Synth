@@ -15,10 +15,15 @@ import com.warneriveris.metronome.model.ClickService;
 public final class Controller implements ControlInterface{
 
     private static final Controller controller = new Controller();
-    private int tempo;
+    private int tempo = 60; // default value of 60 BPM
+    private static final String PLAY = "PLAY"; // text to display on JButton
+    private static final String STOP = "STOP"; // text to display on JButton
+    
+    
     
     private Controller(){
-        tempo = 60;
+        setDisplay(tempo);
+        ClickService.setTempo(tempo);
     }
     
     public static Controller instance(){
@@ -51,6 +56,11 @@ public final class Controller implements ControlInterface{
     @Override
     public void stopPlay() {
         ClickService.stopPlay();
+        if(ClickService.getIsRunning()){
+            togglePlayStopButton(true);
+        } else {
+            togglePlayStopButton(false);
+        }   
     }
     
     
@@ -61,5 +71,14 @@ public final class Controller implements ControlInterface{
      */
     public void setDisplay(int tempo){
         MainFrame.instance().setDisplay(tempo);
+    }
+    
+    /**
+     * Toggles text on play button to "PLAY" or "STOP"
+     * 
+     * @param isPlaying boolean that coordinates state
+     */
+    public void togglePlayStopButton(boolean isRunning){
+        MainFrame.instance().togglePlayButtonText(isRunning);
     }
 }

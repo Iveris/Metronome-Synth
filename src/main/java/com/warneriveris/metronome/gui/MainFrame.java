@@ -135,8 +135,15 @@ public class MainFrame extends javax.swing.JFrame {
     
     public void setDisplay(int tempo){
         String text = Integer.toString(tempo);
-        System.out.println(text);
         DisplayLabel.setText(text);
+    }
+    
+    public void togglePlayButtonText(boolean isPlaying){
+        if(isPlaying){
+            pausePlayBtn.setText("STOP");
+        } else{
+            pausePlayBtn.setText("PLAY");
+        }
     }
     
     /**
@@ -175,7 +182,7 @@ public class MainFrame extends javax.swing.JFrame {
     public static javax.swing.JLabel DisplayLabel;
     private javax.swing.JPanel DisplayPanel;
     private javax.swing.JButton fasterBtn;
-    private javax.swing.JButton pausePlayBtn;
+    public static javax.swing.JButton pausePlayBtn;
     private javax.swing.JButton slowerBtn;
     // End of variables declaration//GEN-END:variables
 }
